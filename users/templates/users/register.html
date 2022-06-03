@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block title %}
+Register
+{% endblock title %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<form  method="post">
+  
+  
+  {% if form.errors %}
+  {% for field in form %}
+      {% for error in field.errors %} 
+         <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+         </div>
+      {% endfor %}
+  {% endfor %}
+{% endif %}
+
+  {% csrf_token %}
+  {% if form  %}
+  {{form|crispy}}
+  {% else %}
+    No form
+  {% endif %}
+
+  <input type="submit" value="Rigster" class="btn btn-success">
+
+</form>
+{% endblock content %}
