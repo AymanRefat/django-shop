@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+
+{{user.username}} - Orders
+
+{% endblock title %}
+
+{% block content %}
+{% if orders %}
+
+
+<table class="table">
+  <thead class="table-dark">
+    <tr>
+    <td>Product Name</td>  
+    <td>Amount</td>  
+    <td>Total Price</td>  
+    <td>Created Date</td>  
+    <td>Status</td>
+    <td>Delete</td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders  %}
+      <tr>
+        <td>
+          {% comment %} TODO LINK TO UPDATE Product {% endcomment %}
+          <a href="{% url 'orders:update' order.id %}" class="text-success">
+
+            {{order.product.name}}
+          </a>
+
+        </td>
+        <td>{{order.amount }}</td>
+        <td>${{order.total_price}}</td>
+        <td>{{order.created_time|date:"Y-m-d"}}</td>
+        <td>{{order.get_status_display}}</td>
+        <td>
+          <form action="." method="POST">
+            <input type="number" name="order_id" value="{{order.id}}" hidden>
+            <input type="submit" class="btn btn-danger" value="Delete">
+            {% csrf_token %}
+          </form>
+        </td>
+
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
+{% else %}
+<h1 class="center">
+No Orders Yet 
+</h1>
+<a href="{% url 'home' %}"class="btn btn-success">Back To Home</a>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Login
+{% endblock title %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% if form.errors %}
+	<div class="alert alert-danger" role="alert">
+	Your username and password didn't match. Please try again.</div>
+	{% endif %}
+
+ {% if next %}
+	<div class="alert alert-danger" role="alert">
+	{% if user.is_authenticated %}
+	Your account doesn't have access to this page. To proceed,
+	please login with an account that has access.
+	{% else %}
+	Please login to see this page. Or
+  <a href="{% url 'register' %}" class="alert-link">Create New Account</a>
+
+	{% endif %}</div>
+{% endif %}
+
+<form method="post" >
+{% csrf_token %}
+{{form|crispy}}
+
+<input type="submit" value="login" class="btn btn-success">
+<input type="hidden" name="next" value="{{ next }}">
+</form>
+
+{% comment %} TODO RESET PASSOWRD URL {% endcomment %}
+{# Assumes you set up the password_reset view in your URLconf #}
+{% comment %} <p><a href="{% url 'password_reset' %}">Lost password?</a></p> {% endcomment %}
+
+
+{% endblock content %}

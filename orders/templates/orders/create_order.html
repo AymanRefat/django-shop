@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+
+Create Order
+
+{% endblock title %}
+
+{% block content %}
+<form  method="post">
+{% load crispy_forms_tags %}
+
+{% csrf_token %}
+  {{form|crispy}}
+<input type="submit" class="btn btn-success">
+</form>
+
+{% endblock content %}

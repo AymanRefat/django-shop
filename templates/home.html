@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Products
+{% endblock title %}
+
+{% block content %}
+
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4" >
+  {% for product in products  %}
+  <div class="col">
+    
+    <div class="card" style="width: 18rem;">
+      <img src="{{product.base_photo.url}}" class="card-img-top img-thumbnail">
+      <div class="card-body">
+       
+        <h5 class="card-title">{{product.name}}</h5>
+        <h6 class="card-title">${{product.price}}</h5>
+        
+        <p class="card-text">{{product.describtion}}</p>
+        <a href="{{product.get_absolute_url}}" class="btn btn-primary">More Details</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+
+
+
+{% endblock content %}
