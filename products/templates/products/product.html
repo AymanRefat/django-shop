@@ -26,9 +26,20 @@
                 <div class="col-lg-7 col-md-7 col-sm-6">
                     <h4 class="box-title mt-5">Product description</h4>
                     <p>{{product.describtion}}</p>
+
+                    {% for label in product.labels.all  %}
+                    <a href="." class="badge bg-{{label.flag}}">{{label}}</a>
+                    {% endfor %}
+            
+                    {% for category in product.categories.all  %}
+                    <a href="." class="badge bg-{{category.flag}}">{{category}}</a>
+                    {% endfor %}
+
                     <h2 class="mt-5">
                         ${{product.price}}
                     </h2>
+            
+
                     <form action="{% url 'orders:create' %}" method="get">
   
                         <input type="text" name="product_id" hidden value="{{product.id}}">
