@@ -30,12 +30,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'products.apps.ProductsConfig',
-    'orders.apps.OrdersConfig',
+    "products.apps.ProductsConfig",
+    "orders.apps.OrdersConfig",
     "users.apps.UsersConfig",
-    'crispy_forms',
+    "crispy_forms",
 ]
-
 
 
 MIDDLEWARE = [
@@ -53,7 +52,7 @@ ROOT_URLCONF = "core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [ BASE_DIR / "templates"],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -138,15 +137,18 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_URL = "static/"
-LOCAL_MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATIC_ROOT = BASE_DIR / "static"
+STATIC_URL = "/static/"
+LOCAL_MEDIA_ROOT = BASE_DIR / "media"
 LOCAL_MEDIA_URL = "/media/"
+
+PRODUCT_IMAGE_SIZE = (500, 500)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 from django.urls import reverse_lazy
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = reverse_lazy('login')
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+LOGIN_REDIRECT_URL = reverse_lazy("home")
+LOGIN_URL = reverse_lazy("login")
+CRISPY_TEMPLATE_PACK = "bootstrap4"

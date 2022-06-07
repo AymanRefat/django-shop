@@ -3,8 +3,6 @@ from django.dispatch import receiver
 from .models import ProductImage
 from core.storages import select_storage
 
-
-
 @receiver(post_delete, sender=ProductImage)
 def my_handler(sender,instance:ProductImage, **kwargs):
     """delete the image file after Deleting the Object in Database """
