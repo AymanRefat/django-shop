@@ -1,45 +1,73 @@
-from django.forms import  ModelForm
-from django.http import HttpResponse
+from django.forms import ModelForm
 from django.shortcuts import redirect
-from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 from django.views import View
-from django.conf import settings
-from django.views.generic.base import TemplateView
 from .forms import NewUserForm
 from django.views.generic.edit import FormView
+from django.contrib import messages
+from django.contrib.auth import login, logout
+from django.urls import reverse_lazy
+from typing import Optional
 
 
-class LogoutRequired(UserPassesTestMixin, View):
-    permission_denied_message = "You have to Logout to see this page"
+class UsersLoginView(LoginView):
+	"""View if the User Logout Only"""
 
-    def test_func(self) -> bool:
-        return not self.request.user.is_authenticated
+	template_name = "users/login.html"
+	success_url: Optional[str] = reverse_lazy("home")
+
+	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated:
+			messages.warning(request, f"You are already Logged In as {request.user} ")
+			return redirect("home")
+		return super(LoginView, self).get(request, *args, **kwargs)
+
+	def form_valid(self, form):
+		"""If the Form is Valid then Login the User"""
+		login(self.request, form.get_user())
+		messages.success(
+			self.request,
+			f"You are Logged In as {form.cleaned_data['username']} Successfully",
+		)
+		return redirect(self.get_success_url())
 
 
-class UsersLoginView(LogoutRequired, LoginView):
-    """View if the User Logout Only"""
+class UserLogoutView(View):
+	"""View if the User Login Only"""
 
-    template_name = "users/login.html"
+	template_name = "users/logout.html"
+	success_url = "home"
+
+	def get(self, request):
+		if not request.user.is_authenticated:
+			messages.warning(request, f"You are already not Logged In")
+			return redirect("login")
+		elif request.user.is_authenticated:
+			logout(request)
+			messages.success(request, f"You are Logged Out Successfully")
+			return redirect(self.success_url)
 
 
-class UserLogoutView(LoginRequiredMixin, LogoutView):
-    """View if the User Login Only"""
+class UserRegisterView(FormView):
+	template_name = "users/register.html"
+	form_class = NewUserForm
+	context_object_name = "form"
+	success_url = reverse_lazy("home")
 
-    template_name = "users/logout.html"
-    login_url = settings.LOGIN_URL
+	def get(self, request):
+		if request.user.is_authenticated:
+			messages.warning(request, f"You are already Logged In as {request.user} ")
+			return redirect("home")
+		return super().get(request)
 
+	def form_valid(self, form: ModelForm):
+		"""Login User after Register"""
+		user = form.save()
+		login(self.request, user)
+		messages.success(
+			self.request, "You have been Registered and loged in Successfully"
+		)
+		return redirect(self.success_url)
 
-class UserRegisterView(LogoutRequired, FormView, TemplateView):
-    template_name = "users/register.html"
-    form_class = NewUserForm
-    context_object_name = "form"
-    success_url = "login"
-
-    def form_valid(self, form: ModelForm):
-        form.save()
-        return redirect(self.success_url)
-
-    # TODO handel this in better way
-    def form_invalid(self, form):
-        return HttpResponse("bad Some thing happen ")
+	def form_invalid(self, form):
+		return self.get(self.request)

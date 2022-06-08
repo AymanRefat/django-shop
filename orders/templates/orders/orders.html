@@ -25,23 +25,30 @@
     {% for order in orders  %}
       <tr>
         <td>
-          {% comment %} TODO LINK TO UPDATE Product {% endcomment %}
-          <a href="{% url 'orders:update' order.id %}" class="text-success">
-
+          {% if order.edit %}
+          <a href="{% url 'orders:update' order.id %}" class="text-success">            
             {{order.product.name}}
           </a>
+          {% else %}
+          <strong>
+            {{order.product.name}}
+          </strong>
+          {% endif %}
 
         </td>
         <td>{{order.amount }}</td>
         <td>${{order.total_price}}</td>
         <td>{{order.created_time|date:"Y-m-d"}}</td>
         <td>{{order.get_status_display}}</td>
+
         <td>
+          {% comment %} Check if the order can be deleted {% endcomment %}
+          {% if order.edit %}
           <form action="." method="POST">
-            <input type="number" name="order_id" value="{{order.id}}" hidden>
-            <input type="submit" class="btn btn-danger" value="Delete">
+            <button type="submit" class="btn btn-danger" value="{{order.id}}" name="order_id">Delete</button>
             {% csrf_token %}
           </form>
+          {% endif %}
         </td>
 
       </tr>

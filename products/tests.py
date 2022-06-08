@@ -1,9 +1,5 @@
 from django.test import TestCase
-from . import models as m
 from . import utils
-from string import ascii_lowercase, ascii_uppercase
-import random
-from django.db.models import Q
 
 
 class TestUtils(TestCase):

@@ -1,7 +1,6 @@
-from itertools import product
 from django import forms
 from .models import Product
-from django.db.models import QuerySet, Q
+from django.db.models import QuerySet
 
 
 class ProductSearchFormByName(forms.ModelForm):
@@ -34,15 +33,15 @@ class ProductSearchFormByName(forms.ModelForm):
 class ProductSearchForm(forms.ModelForm):
 	min_price = forms.FloatField(required=False)
 	max_price = forms.FloatField(required=False)
+
 	class Meta:
 		model = Product
 		fields = ("name", "labels", "categories")
 
 	def __init__(self,*args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.fields["name"].required = False  
-		self.fields["labels"].required = False 
-		self.fields["categories"].required = False 
+		for field in self.fields:
+			self.fields[field].required = False
 
 	def search(self) -> QuerySet:
 		"""search The Objects by name and describtion

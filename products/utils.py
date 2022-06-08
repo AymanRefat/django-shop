@@ -54,7 +54,3 @@ def create_lookups(key:str,dict_search:dict,connecter:Literal["OR","AND"]="AND",
 			else :
 				return None
 
-
-if __name__ == "__main__":
-	lookups = create_lookups("new",{"new":"DATA"},"OR",'new__icontains', "name__icontains")
-	print(lookups)
