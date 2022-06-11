@@ -36,9 +36,6 @@ Products
         <p class="card-text">{{product.describtion}}</p>
         
         <a href="{{product.get_absolute_url}}" class="btn btn-primary">More Details</a>
-        {% for label in product.labels.all  %}
-        <a href="." class="badge bg-{{label.flag}}">{{label}}</a>
-        {% endfor %}
 
         {% for category in product.categories.all  %}
         <a href="." class="badge bg-{{category.flag}}">{{category}}</a>

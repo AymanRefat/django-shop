@@ -16,14 +16,6 @@ class Flag(models.Model):
 		return self.name
 
 
-class Label(models.Model):
-	id = models.AutoField(primary_key=True)
-	name = models.CharField(null=False, blank=False, max_length=20)
-	flag = models.ForeignKey(Flag , on_delete=models.CASCADE ,to_field='name',default='success' )
-	
-	def __str__(self) -> str:
-		return self.name
-
 
 class Category(models.Model):
 	id = models.AutoField(primary_key=True)
@@ -42,9 +34,6 @@ class Product(models.Model):
 	inventory = models.PositiveIntegerField()
 	created_time = models.DateTimeField(auto_now_add=True)
 	last_updated_time = models.DateTimeField(auto_now=True)
-	labels = models.ManyToManyField(
-		Label, through="ProductLabels", through_fields=( "product","label")
-	)
 	categories = models.ManyToManyField(
 		Category, through="ProductCategories", through_fields=( "product","category")
 	)
@@ -66,11 +55,6 @@ class Product(models.Model):
 			return photos.first().image
 
 
-
-
-class ProductLabels(models.Model):
-	product = models.ForeignKey(Product, on_delete=models.CASCADE)
-	label = models.ForeignKey(Label, on_delete=models.CASCADE)
 
 
 class ProductCategories(models.Model):

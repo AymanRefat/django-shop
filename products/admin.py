@@ -1,10 +1,9 @@
 from django.contrib import admin
-from .models import Product, ProductImage, ProductLabels, Label, Category, ProductCategories , Flag
+from .models import Product, ProductImage, Category, ProductCategories , Flag
 
 
 admin.site.register(Flag)
 admin.site.register(ProductCategories)
-admin.site.register(ProductLabels)
 admin.site.register(ProductImage)
 class ProductImageAdmin(admin.TabularInline):
 	model = ProductImage
@@ -12,9 +11,6 @@ class ProductImageAdmin(admin.TabularInline):
 
 
 
-@admin.register(Label)
-class LabelAdmin(admin.ModelAdmin):
-	list_display = ["name", "id"]
 
 
 @admin.register(Product)
@@ -25,7 +21,7 @@ class ProductAdmin(admin.ModelAdmin):
 		"inventory",
 		"price",
 	]
-	filter_vertical = ["labels", "categories"]
+	filter_vertical = ["categories"]
 	search_fields = ["id", "name", "price"]
 	inlines = [ProductImageAdmin]
 	readonly_fields = ["created_time", "last_updated_time"]

@@ -36,7 +36,7 @@ class ProductSearchForm(forms.ModelForm):
 
 	class Meta:
 		model = Product
-		fields = ("name", "labels", "categories")
+		fields = ("name",  "categories")
 
 	def __init__(self,*args, **kwargs):
 		super().__init__(*args, **kwargs)
