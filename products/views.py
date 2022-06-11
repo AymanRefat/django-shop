@@ -3,9 +3,11 @@ from django.views import View
 from django.views.generic import (
     DetailView
 )
-from .models import  Product
+from .models import  Product , ProductImage , Category , ProductCategories , Flag
 from .forms import ProductSearchForm
 from django.contrib import messages 
+from django.views.generic import ListView
+from django.http import Http404
 
 class ProductDetailView(DetailView):
     """See the All Details for the Product and User can Create Order from it"""
@@ -31,6 +33,20 @@ class SearchProducts(View):
             else:
                 qs = Product.objects.all()
                 messages.warning(request, "Please Enter a Valid Search")
-
         return render(request,self.template_name,{'form':form,"products":qs })
 
+
+class CategoryView(ListView):
+    model = Product
+    template_name = "products/category.html"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        return Product.objects.filter(categories__name__iexact=self.category)
+
+    def get(self, request, *args, **kwargs):
+        self.category = self.kwargs.get("category")
+        qs = Category.objects.filter(name__iexact=self.category)
+        if not qs.exists() :
+            raise Http404(f"Category ({self.category}) Doesn't Exist")
+        return super().get(request, *args, **kwargs)
