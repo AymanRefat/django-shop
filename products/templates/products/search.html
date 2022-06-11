@@ -13,43 +13,8 @@ Search
 <div class="container">
   
   <div class="row row-cols-1 row-cols-md-3 g-4" >
-  {% if products %}
-  {% for product in products  %}
-  <div class="col">
-    
-    <div class="card" style="width: 18rem;">
-
-      {% if product.base_photo %}
-      <img src="{{product.base_photo.url}}" class="card-img-top img-thumbnail">
-      {% else %}
-      {% comment %}TODO  Defult Photo {% endcomment %}
-      {% endif %}
-      
-     
-      <div class="card-body">
-       
-        <h5 class="card-title">{{product.name}}</h5>
-        <h6 class="card-title">${{product.price}}</h5>
-        
-        {% for label in product.labels.all  %}
-       <small>
-         {{label}}
-
-       </small>
-        {% endfor %}
-        
-        {% for category in product.categorise.all  %}
-       <small>
-         {{category}}
-        </small>
-        {% endfor %}
-        <p class="card-text">{{product.describtion}}</p>
-        <a href="{{product.get_absolute_url}}" class="btn btn-primary">More Details</a>
-      </div>
-    </div>
+    {% if products %}
+    {% include 'home.html' %}
+    {% endif %}
   </div>
-  {% endfor %}
-</div>
-{% endif %}
-</div>
 {% endblock content %}

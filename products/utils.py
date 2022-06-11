@@ -27,17 +27,19 @@ def valid_params(**kwargs)->dict:
 
 
 
-def allowed_params(allowed:tuple,**kwargs)->dict:
+def allowed_params(allowed:tuple,d:dict,**kwargs)->dict:
 	"""Check the Params if they are in the allowed Tuple Remove it if doesn't Exist 
 		return All allowed in Dict
 		- Return Empty dict if there is no Match
 		- Not Case Sensitive"""
+	
+	d = d | kwargs
 	allowed = [ i.lower() for i in allowed ]
-	if kwargs:
+	if d:
 		new = {}
-		for key in kwargs:
+		for key in d:
 			if  key.lower() in allowed:
-				new[key] = kwargs[key]
+				new[key] = d[key]
 		return new 
 	
 	else:

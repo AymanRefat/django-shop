@@ -49,5 +49,5 @@ class ProductSearchForm(forms.ModelForm):
 		- Use the Name in Describtion Search , If there is No describtion provided 
 		"""
 		if self.is_valid():
-			qs:QuerySet = Product.objects.search(**self.cleaned_data)
+			qs:QuerySet = Product.search(**self.cleaned_data)
 			return qs 

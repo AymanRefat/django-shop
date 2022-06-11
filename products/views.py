@@ -31,7 +31,7 @@ class SearchProducts(View):
             if form.is_valid():
                 qs = form.search()
             else:
-                qs = Product.objects.all()
+                qs = None
                 messages.warning(request, "Please Enter a Valid Search")
         return render(request,self.template_name,{'form':form,"products":qs })
 
