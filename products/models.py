@@ -43,14 +43,14 @@ class Product(models.Model):
 
 	@classmethod
 	def search(self,**kwargs)-> models.QuerySet:
-		allowed = [ "name", "describtion", "price" , "category","min_price","max_price"]
+		allowed = [ "name", "describtion", "price" , "category","categories","min_price","max_price"]
 		params = utils.valid_params(**utils.allowed_params(allowed=allowed,d=kwargs))
 		name = params.get("name", None)
 		describtion = params.get("describtion", None)
 		price =params.get("price", None)
 		min_price = params.get("min_price", None)
 		max_price = params.get("max_price", None)
-		category = params.get("category", None)
+		category = params.get("category", None) or params.get("categories",None)
 
 
 		qs = self.objects.all()
