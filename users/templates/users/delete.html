@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+
+Delete {{object.username}}'s Account
+
+
+{% endblock title %}
+
+
+{% block content %}
+<form action="." method="post">
+  <p class='alert alert-danger'>
+    Are you sure you want to delete 
+    <strong>
+      {{object.username}}
+    </strong>
+    's account?
+  </p>
+  {% csrf_token %}
+  <input type="submit" value="Delete" class="btn btn-danger">
+  <a href="{% url 'home' %}" class="btn btn-success">Cancel</a>
+</form>
+
+{% endblock content %}

@@ -49,26 +49,29 @@
           <div class="navbar-nav">
             {% url 'home' as home_url %}
             <a class="nav-link" aria-current="page" href="{{home_url}}">Home</a>
-           
-           
+          
+          
             {% url 'orders:orders' as orders_url %}
             <a class="nav-link " href="{{orders_url}}">My Orders</a>
             
-            {% url 'products:search' as search_url %}
+            {% url 'products:search'  as search_url %}
             <a class="nav-link " href="{{search_url}}"> Search</a> 
-
+            
             {% if user.is_authenticated %}
             
             
-            <a class="nav-link" href="{% url 'logout'  %}">Logout</a>
+            {% url 'users:account' user.username as account_url %}
+            <a class="nav-link " href="{{account_url}}"> My Account</a> 
+            
+            <a class="nav-link" href="{% url 'users:logout'  %}">Logout</a>
             
             
             {% else %}
 
-            {% url 'login' as login_url %}
+            {% url 'users:login' as login_url %}
             
             <a class="nav-link" href="{{login_url}}">Login</a>
-            {% url 'register' as register_url %}
+            {% url 'users:register' as register_url %}
             
             <a class="nav-link" href="{{register_url}}">Register</a>
             

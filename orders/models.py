@@ -3,8 +3,9 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from products.models import Product 
 from django.urls import reverse
-User = get_user_model()
 from django.utils.translation import gettext_lazy 
+
+User = get_user_model()
 
 
 class Order(models.Model):
@@ -19,7 +20,7 @@ class Order(models.Model):
     amount = models.PositiveIntegerField()
     status: OrderStatus = models.CharField(
         max_length=2, choices=OrderStatus.choices, default=OrderStatus.Paid
-    )
+    )   
 
     created_time = models.DateTimeField(auto_now_add=True)
     last_updated_time = models.DateTimeField(auto_now=True)

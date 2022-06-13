@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+
+{% block title %} {{user.username}} {% endblock title %}
+{% block head %}{% endblock head %}
+
+{% block content %}
+
+<h3>Your Profile</h3>
+<p>
+
+  User Name :{{user.username}}
+</p>
+
+{% if user.first_name %}
+<p>
+  First Name: {{user.first_name}} 
+</p>
+{% endif %}
+{% if user.last_name %}
+<p>
+  Last Name: {{user.last_name}}
+</p>
+{% endif %}
+
+{% if user.phone_number %}
+<p>
+  
+  Phone: {{user.phone_number}}
+</p>
+{% endif %}
+
+{% if user.address %}
+<p>
+  address : {{user.address}}
+</p>
+{% endif %}
+
+<a href="{% url 'users:edit' user.username %}" class="btn btn-success">Update</a>
+<a href="{% url 'users:delete' user.username %}" class="btn btn-danger">Delete</a>
+{% endblock content %}
+
+
+{% block script %}{% endblock script %}

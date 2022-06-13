@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+Edit {{ user.username }}'s Account
+{% endblock title %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<form action="." method="post">
+
+  {{form|crispy}}
+  {% csrf_token %}
+  
+  <input type="submit" value="Update" class="btn btn-success">
+  <a href="{% url 'home' %}" class="btn btn-success">Cancel</a>
+</form>
+{% endblock content %}
+
+

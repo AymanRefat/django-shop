@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+Verify {{user.username}}'s Identity
+{% endblock title %}
+
+{% block head %}
+
+{% endblock head %}
+
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<form action="." method="post">
+  {{form|crispy}}
+  {% csrf_token %}
+  <input type="submit" value="Verify" class="btn btn-success">
+</form>
+
+{% endblock content %}
