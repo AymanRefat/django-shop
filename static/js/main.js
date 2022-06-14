@@ -3,7 +3,8 @@
 function activeLinkPath(path) {
 	let links = document.links;
 	for (let i = 0; i < links.length; i++) {
-		if (links[i].pathname === path) {
+		let href = links[i].getAttribute('href');
+		if (href === path) {
 			links[i].classList.add('active');
 		}
 	}
@@ -12,7 +13,6 @@ function activeLinkPath(path) {
 
 
 window.onload =  () => {
-	
 	activeLinkPath(window.location.pathname);
 
 }
