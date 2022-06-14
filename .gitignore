@@ -13,7 +13,11 @@ media/
 db
 db.sqlite3
 test.py 
+not.py
 .env 
+
+setup.cfg 
+
 ### Django.Python Stack ###
 *.py[cod]
 *$py.class

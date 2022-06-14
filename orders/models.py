@@ -26,11 +26,11 @@ class Order(models.Model):
 
     def __str__(self) -> str:
         status = Order.OrderStatus(self.status)
-        return f"{self.customer.username}-{status.label}"
+        return f"{self.product.name}{self.customer.username}-{status.label}"
 
     @property
     def total_price(self) -> float:
-        return self.amount * self.product.price
+        return float(self.amount * self.product.price)
 
     def get_absolute_url(self) -> str:
         return reverse("get_order", kwargs={"pk": self.id})

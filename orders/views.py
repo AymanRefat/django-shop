@@ -24,7 +24,9 @@ class GetOrders(LoginRequiredMixin, ListView):
     context_object_name = "orders"
 
     def get_queryset(self):
-        return Order.objects.filter(customer=self.request.user).order_by("-created_time")
+        return Order.objects.filter(customer=self.request.user).order_by(
+            "-created_time"
+        )
 
     def post(self, request):
         order_id = request.POST.get("order_id")
@@ -53,13 +55,20 @@ class CreateOrder(FormView, LoginRequiredMixin):
         messages.warning(self.request, "Order Creation Failed!")
         return self.render_to_response(self.get_context_data(form=form))
 
+
+
+    # BUG -  if the user is not logged in and remove the product_id in url then it will NOT redirect to the login page
     def get_initial(self):
         """Get the Initial Data for the Form"""
-        product_id = int(self.request.GET.get("product_id"))
-        qs = Product.objects.filter(id=product_id)
-        if qs.exists():
-            return {"product": qs.first()}
+        product_id = self.request.GET.get("product_id",None)
+        if product_id is not None : 
+            qs = Product.objects.filter(id=int(product_id))
+            if qs.exists():
+                return {"product": qs.first()}
         return super(FormView, self).get_initial()
+
+
+
 
 
 class UpdateOrder(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

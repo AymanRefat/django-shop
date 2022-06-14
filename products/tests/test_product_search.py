@@ -1,49 +1,8 @@
 from django.test import TestCase
-from . import utils
-from . import models as m 
+from products import models as m 
 from string import ascii_lowercase , ascii_uppercase 
 import random 
 from django.db.models import Q 
-class TestUtils(TestCase):
-		def setUp(self):
-				self.allowed_params = ("name", "des")
-
-		def test_valid_params(self):
-				test_params = {"name": "", "param2": None, "right": "data"}
-				data = utils.valid_params(**test_params)
-				self.assertEqual(
-						len(data),
-						1,
-						"Didn't Remove the Bad Params and Didn't Return The right Ones",
-				)
-
-		def test_empty_valid_params(self):
-				data = utils.valid_params()
-				self.assertEqual(data, {}, "Didn't Return Empty Dict")
-
-		def test_bad_params_valid_params(self):
-				data = utils.valid_params(hello=None, new="", bad="", p=None)
-				self.assertEqual(data, {}, "Didn't Remove the Bad Params")
-
-		def test_allowed_params(self):
-				allowed = self.allowed_params
-				test_params = {key: "d" for key in allowed}
-				test_params["bad_params"] = "D"
-				data = utils.allowed_params(self.allowed_params, d=test_params)
-				self.assertEqual(len(data), len(self.allowed_params))
-
-		def test_allowed_params_with_capital_letters(self):
-				allowed = self.allowed_params
-				test_params = {key: "d" for key in allowed}
-				test_params["Name"] = "D"
-				test_params["NAME"] = "D"
-				data = utils.allowed_params(self.allowed_params, d=test_params)
-				self.assertEqual(len(data), len(test_params))
-
-
-		# TODO create this 
-		def test_generate_image_name(self):
-			pass 
 
 
 class TestProductSearch(TestCase):
@@ -72,18 +31,18 @@ class TestProductSearch(TestCase):
 								self.cat = self.cat1
 								self.lab = self.lab1
 
-								describtion = (
+								description = (
 										"".join(random.choices(ascii_uppercase + ascii_lowercase, k=100))
 										+ self.keyword_search
 								)
 						else:
 								self.cat = self.cat2
 								self.lab = self.lab2
-								describtion = "None"
+								description = "None"
 								self.price = self.price2
 						
 						obj = self.model(
-								name=name, describtion=describtion, price=self.price, inventory=100
+								name=name, description=description, price=self.price, inventory=100
 						)
 						obj.save()
 						obj.categories.add(self.cat)
@@ -96,7 +55,7 @@ class TestProductSearch(TestCase):
 
 		def test_search_products_by_description(self):
 				qs = self.model.search(
-						describtion=self.keyword_search
+						description=self.keyword_search
 				)  # should Return diff_count	
 				self.assertEqual(
 						qs.count(),
@@ -107,7 +66,7 @@ class TestProductSearch(TestCase):
 		def test_search_query_set_vs_filter(self):
 				qs = self.objects.filter(
 						Q(name__icontains=self.keyword_search)
-						| Q(describtion__icontains=self.keyword_search)
+						| Q(description__icontains=self.keyword_search)
 				)
 				qs2 = self.model.search(name=self.keyword_search)
 				self.assertEqual(
@@ -115,8 +74,8 @@ class TestProductSearch(TestCase):
 				)
 
 		def test_search_query_vs_filter_method_by_description(self):
-				qs =self.objects.filter(Q(describtion__icontains=self.keyword_search))
-				qs2 =self.model.search(describtion=self.keyword_search)
+				qs =self.objects.filter(Q(description__icontains=self.keyword_search))
+				qs2 =self.model.search(description=self.keyword_search)
 				self.assertEqual(
 						qs.count(), qs2.count(), "Search Method Doesn't Work at Describtion Search "
 				)

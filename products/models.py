@@ -29,7 +29,7 @@ class Category(models.Model):
 class Product(models.Model):
 	id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50, null=False, blank=False)
-	describtion = models.TextField()
+	description = models.TextField()
 	price = models.FloatField()
 	inventory = models.PositiveIntegerField()
 	created_time = models.DateTimeField(auto_now_add=True)
@@ -43,10 +43,10 @@ class Product(models.Model):
 
 	@classmethod
 	def search(self,**kwargs)-> models.QuerySet:
-		allowed = [ "name", "describtion", "price" , "category","categories","min_price","max_price"]
+		allowed = [ "name", "description", "price" , "category","categories","min_price","max_price"]
 		params = utils.valid_params(**utils.allowed_params(allowed=allowed,d=kwargs))
 		name = params.get("name", None)
-		describtion = params.get("describtion", None)
+		description = params.get("description", None)
 		price =params.get("price", None)
 		min_price = params.get("min_price", None)
 		max_price = params.get("max_price", None)
@@ -56,10 +56,10 @@ class Product(models.Model):
 		qs = self.objects.all()
 
 		if name is not None :
-			qs = self.objects.filter(Q(describtion__icontains=name) | Q(name__icontains=name))
+			qs = self.objects.filter(Q(description__icontains=name) | Q(name__icontains=name))
 
-		if describtion is not None :
-			qs = self.objects.filter(describtion__icontains=describtion)
+		if description is not None :
+			qs = self.objects.filter(description__icontains=description)
 		
 		if price is not None :
 			qs = self.objects.filter(price=price)
