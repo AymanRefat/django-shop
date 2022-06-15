@@ -1,10 +1,7 @@
-from django.views.generic import (
-		ListView,
-)
-from products.models import Product 
+from django.views.generic import ListView
+
 from products.forms import ProductSearchFormByName
-
-
+from products.models import Product
 
 
 class HomePage(ListView):

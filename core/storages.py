@@ -1,5 +1,6 @@
-from django.core.files.storage import FileSystemStorage , Storage 
-from django.conf import settings 
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage, Storage
+
 
 class LocalStorage(FileSystemStorage):
   location = settings.LOCAL_MEDIA_ROOT

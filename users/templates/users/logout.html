@@ -8,8 +8,8 @@ Logout
 
 <div class="alert alert-success" role="alert">
   You Logout Successfully! 
-  <a href="{% url 'login' %}" class="alert-link">Login again</a> OR
-  <a href="{% url 'register' %}" class="alert-link">Create New Account</a>
+  <a href="{% url 'users:login' %}" class="alert-link">Login again</a> OR
+  <a href="{% url 'users:register' %}" class="alert-link">Create New Account</a>
 </div>
 
 {% endblock content %}

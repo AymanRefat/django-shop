@@ -60,18 +60,18 @@
             {% if user.is_authenticated %}
             
             
-            {% url 'users:account' user.username as account_url %}
+            {% url 'account' user.username as account_url %}
             <a class="nav-link " href="{{account_url}}"> My Account</a> 
             
-            <a class="nav-link" href="{% url 'users:logout'  %}">Logout</a>
+            <a class="nav-link" href="{% url 'logout'  %}">Logout</a>
             
             
             {% else %}
 
-            {% url 'users:login' as login_url %}
+            {% url 'login' as login_url %}
             
             <a class="nav-link" href="{{login_url}}">Login</a>
-            {% url 'users:register' as register_url %}
+            {% url 'register' as register_url %}
             
             <a class="nav-link" href="{{register_url}}">Register</a>
             

@@ -149,18 +149,22 @@ STATICFILES_DIRS  = [ os.path.join(BASE_DIR, "static") ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 from django.urls import reverse_lazy
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Login redirect
 LOGIN_REDIRECT_URL = reverse_lazy("home")
-LOGIN_URL = reverse_lazy('users:login')
+LOGIN_URL = reverse_lazy('login')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
+
+
+
 # Email Settings (SMTP)
-EMAIL_BACKEND = "django.core.mail.backends.stmp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_POST = 587
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL')
+EMAIL_HOST_USER = os.environ.get('EMAIL_ADDRESS')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')

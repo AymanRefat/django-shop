@@ -36,8 +36,7 @@
 </p>
 {% endif %}
 
-<a href="{% url 'users:edit' user.username %}" class="btn btn-success">Update</a>
-<a href="{% url 'users:delete' user.username %}" class="btn btn-danger">Delete</a>
+<a href="{% url 'password-change' user.username %}" class="btn btn-primary">Change Your Password</a>
 {% endblock content %}
 
 

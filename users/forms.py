@@ -1,7 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, authenticate, get_user_model
+
+from django.contrib.auth import authenticate, get_user_model, login
 from django.core.mail import send_mail
+from django.contrib.auth import authenticate, get_user_model
+from .models import Address
 
 User = get_user_model()
 
@@ -31,18 +34,3 @@ class UserChangePasswordForm(forms.Form):
 
 
 
-# TODO 
-# class SendUserResetEmailPasswordForm(forms.Form):
-# 		email = forms.EmailField()
-
-# 		def send_user_reset_email(self):
-# 			if self.is_valid():
-# 				email= User.objects.get(email=self.cleaned_data.get("email"))
-# 				qs = User.objects.filter(email=email)
-# 				if qs.exists():
-# 					send_mail(
-# 						"Reseting Your Password",
-# 						"Here is the message.",
-# 						"mydjangoshop@gmail.com",
-# 						[email],
-# 						fail_silently=False)

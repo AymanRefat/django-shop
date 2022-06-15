@@ -31,6 +31,9 @@ Login
 <input type="hidden" name="next" value="{{ next }}">
 </form>
 
+<p>Forgot Your Password ? <a href="{% url 'password_reset' %}">Reset Now!</a></p>
+
+<p>Don't Have Account <a href="{% url 'register' %}">Create One !</a></p>
 {% comment %} TODO RESET PASSOWRD URL {% endcomment %}
 {# Assumes you set up the password_reset view in your URLconf #}
 {% comment %} <p><a href="{% url 'password_reset' %}">Lost password?</a></p> {% endcomment %}
