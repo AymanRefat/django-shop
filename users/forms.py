@@ -1,25 +1,48 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login , authenticate , get_user_model
-# from django.contrib.auth.models import User 
+from django.contrib.auth import login, authenticate, get_user_model
+from django.core.mail import send_mail
 
 User = get_user_model()
-# print(User)
+
+
 class NewUserForm(UserCreationForm):
+		class Meta:
+				model = User
+				fields = ("username",'email' ,  "password1", "password2")
 
-	class Meta:
-		model = User
-		fields = ("username",  "password1", "password2")
+
+class UserChangePasswordForm(forms.Form):
+		old_password = forms.CharField(widget=forms.PasswordInput)
+		new_password = forms.CharField(widget=forms.PasswordInput)
+
+		def change_password(self, user):
+				if self.is_valid():
+						old_password = self.cleaned_data.get("old_password")
+						new_password = self.cleaned_data.get("new_password")
+						user = authenticate(username=user.username, password=old_password)
+						if user:
+								user.set_password(new_password)
+								user.save()
+								print(user.__dict__)
+								return user
+						else:
+								raise forms.ValidationError("Old Password is Incorrect")
 
 
-	# def login(self,request)->bool:
-	# 	"""return True if Login the User"""
-	# 	user = self.save(False)
-	# 	print(user)
-	# 	user.save()
-	# 	auth_user = authenticate(request,username=user.username,password=user.password)
-	# 	if auth_user:
-	# 		login(request,auth_user)
-	# 		return True
-	# 	return False 
 
+# TODO 
+# class SendUserResetEmailPasswordForm(forms.Form):
+# 		email = forms.EmailField()
+
+# 		def send_user_reset_email(self):
+# 			if self.is_valid():
+# 				email= User.objects.get(email=self.cleaned_data.get("email"))
+# 				qs = User.objects.filter(email=email)
+# 				if qs.exists():
+# 					send_mail(
+# 						"Reseting Your Password",
+# 						"Here is the message.",
+# 						"mydjangoshop@gmail.com",
+# 						[email],
+# 						fail_silently=False)

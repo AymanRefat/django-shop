@@ -26,6 +26,10 @@ class Category(models.Model):
 	def __str__(self) -> str:
 		return self.name
 
+
+	class Meta:
+		verbose_name_plural = "Categories"
+
 class Product(models.Model):
 	id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50, null=False, blank=False)
@@ -108,7 +112,8 @@ class ProductCategories(models.Model):
 
 
 
-
+	class Meta:
+		verbose_name_plural = "Product Categories"
 
 
 
@@ -122,3 +127,6 @@ class ProductImage(models.Model):
 	def __str__(self) -> str:
 		return self.product.name
 
+
+	class Meta :
+		verbose_name_plural = "Product Images"

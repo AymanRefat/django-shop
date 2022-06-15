@@ -1,15 +1,16 @@
 from django.forms import ModelForm
+from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import redirect
 from django.contrib.auth.views import LoginView
 from django.views import View
-from .forms import NewUserForm
+from .forms import  NewUserForm , UserChangePasswordForm 
 from django.views.generic.edit import FormView
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.urls import reverse_lazy
 from typing import Optional
-
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 class UsersLoginView(LoginView):
 	"""View if the User Logout Only"""
 
@@ -71,3 +72,27 @@ class UserRegisterView(FormView):
 
 	def form_invalid(self, form):
 		return self.get(self.request)
+
+
+
+
+class UserChangePassword(LoginRequiredMixin,FormView):
+
+	template_name = "users/change-password.html"
+	success_url = reverse_lazy("home")
+	form_class = UserChangePasswordForm
+
+	def form_valid(self, form:UserChangePasswordForm) :
+		user = form.change_password(self.request.user)
+		messages.success(self.request, "Password Changed Successfully")
+		update_session_auth_hash(self.request, user)
+		return redirect(self.success_url)
+	
+	def form_invalid(self, form):
+		messages.error(self.request, "Please Enter Valid Password")
+		return self.get(self.request)
+
+
+
+
+
